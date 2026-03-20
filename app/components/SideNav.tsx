@@ -4,8 +4,12 @@ import NextImage from "next/image";
 import TestLogo from "@/public/test.png";
 import { IconLogout } from "@tabler/icons-react";
 import { paths } from "@/app/routes";
+import api from "@/app/lib/axios";
+import { useRouter } from "next/navigation";
 
 export default function SideNav() {
+  const router = useRouter();
+
   // Navigation paths
   const items = paths.map((path) => {
     return (
@@ -19,6 +23,16 @@ export default function SideNav() {
       />
     );
   });
+
+  const handleLogout = async () => {
+    try {
+      await api.post("/auth/logout");
+    } catch (err) {
+      console.warn("Server logout failed", err);
+    }
+
+    router.push("/login");
+  };
 
   return (
     <Stack p="lg" h="100vh" justify="space-between">
@@ -43,7 +57,7 @@ export default function SideNav() {
           variant="transparent"
           c="#828282"
           leftSection={<IconLogout size={14} />}
-          // onClick={handleLogout}
+          onClick={handleLogout}
         >
           <Text size="xs" fw="bold">
             Logout
