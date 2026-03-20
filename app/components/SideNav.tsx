@@ -7,7 +7,11 @@ import { paths } from "@/app/routes";
 import api from "@/app/lib/axios";
 import { useRouter } from "next/navigation";
 
-export default function SideNav() {
+type SideNavProps = {
+  closeNavbar: () => void;
+};
+
+export default function SideNav({ closeNavbar }: SideNavProps) {
   const router = useRouter();
 
   // Navigation paths
@@ -20,6 +24,7 @@ export default function SideNav() {
         label={path.pathName}
         fw="bold"
         leftSection={<path.icon size={16} stroke={1.5} />}
+        onClick={closeNavbar}
       />
     );
   });
@@ -31,11 +36,12 @@ export default function SideNav() {
       console.warn("Server logout failed", err);
     }
 
+    closeNavbar();
     router.push("/login");
   };
 
   return (
-    <Stack p="lg" h="100vh" justify="space-between">
+    <Stack p="lg" h="100%" justify="space-between">
       <div>
         <Box style={{ display: "flex", justifyContent: "center" }}>
           <Image
@@ -52,7 +58,7 @@ export default function SideNav() {
         <Space h="md" />
         <Box>{items}</Box>
       </div>
-      <div>
+      <Box style={{ position: "absolute", bottom: 20 }}>
         <Button
           variant="transparent"
           c="#828282"
@@ -63,7 +69,7 @@ export default function SideNav() {
             Logout
           </Text>
         </Button>
-      </div>
+      </Box>
     </Stack>
   );
 }
