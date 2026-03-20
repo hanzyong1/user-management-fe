@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
 import api from "@/app/lib/axios";
@@ -11,6 +11,7 @@ import {
   Paper,
   Stack,
   Box,
+  Text,
   Image,
 } from "@mantine/core";
 import NextImage from "next/image";
@@ -25,9 +26,10 @@ type AuthState = {
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loginError, setLoginError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const router = useRouter();
-
   const { loading, authenticated } = useAuth() as AuthState;
 
   // Redirect if already logged in
@@ -41,15 +43,19 @@ export default function Login() {
 
   const handleSubmit = async (e: SubmitEvent) => {
     e.preventDefault();
+    setLoginError(null);
+    setSubmitting(true);
 
     try {
       await api.post("/auth/login", { email, password });
       router.push("/profile");
     } catch (err: unknown) {
       const error = err as AxiosError<{ message?: string }>;
-      alert(
-        "Login failed: " + (error.response?.data?.message || error.message),
+      setLoginError(
+        error.response?.data?.message || "Login failed. Please try again.",
       );
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -145,7 +151,20 @@ export default function Login() {
                   value={password}
                   onChange={handlePasswordChange}
                 />
-                <Button type="submit" fullWidth variant="outline" color="black">
+
+                {loginError && (
+                  <Text c="red" size="sm">
+                    {loginError}
+                  </Text>
+                )}
+
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="outline"
+                  color="black"
+                  loading={submitting}
+                >
                   Login
                 </Button>
               </Stack>
