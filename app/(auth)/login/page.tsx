@@ -13,10 +13,13 @@ import {
   Box,
   Text,
   Image,
+  Anchor,
 } from "@mantine/core";
 import NextImage from "next/image";
 import TestLogo from "@/public/test.png";
 import { useAuth } from "@/app/lib/useAuth";
+import { useDisclosure } from "@mantine/hooks";
+import RegisterModal from "@/app/components/RegisterModal";
 
 type AuthState = {
   loading: boolean;
@@ -24,6 +27,8 @@ type AuthState = {
 };
 
 export default function Login() {
+  const [opened, { open, close }] = useDisclosure(false);
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -144,6 +149,7 @@ export default function Login() {
                   value={email}
                   onChange={handleEmailChange}
                 />
+
                 <PasswordInput
                   label="Password"
                   placeholder="Enter your password"
@@ -151,6 +157,16 @@ export default function Login() {
                   value={password}
                   onChange={handlePasswordChange}
                 />
+
+                <Anchor
+                  underline="always"
+                  component="button"
+                  type="button"
+                  size="sm"
+                  onClick={open}
+                >
+                  Not a user? Register here!
+                </Anchor>
 
                 {loginError && (
                   <Text c="red" size="sm">
@@ -171,6 +187,9 @@ export default function Login() {
             </form>
           </Paper>
         </Box>
+
+        {/* User registration modal */}
+        <RegisterModal opened={opened} onClose={close} />
       </Box>
     </Box>
   );
