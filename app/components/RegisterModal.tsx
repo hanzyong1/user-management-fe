@@ -47,12 +47,15 @@ export default function RegisterModal({ opened, onClose }: Props) {
       handleClose();
     } catch (err: unknown) {
       const error = err as AxiosError<{ message?: string }>;
-      console.log(error);
+
+      const message =
+        error.response?.data?.message ||
+        "Registration Failed. Please try again";
 
       notifications.show({
         color: "red",
         title: "Failed",
-        message: "Registration Failed. Please try again",
+        message: message,
       });
     } finally {
       setLoading(false);
