@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# User Management Next.js App
 
-## Getting Started
+## Overview
 
-First, run the development server:
+This is a Next.js application of a User Management system  
+It allows users to log in, view, and update their profile, including uploading a profile picture
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech Stack
+
+- Next.js (App Router)
+- Mantine Ui for styling
+
+## Features
+
+### Authentication
+
+- User login with email and password
+- JWT-based authentication
+- Refresh token support
+- User registration
+
+### Profile Management
+
+- Get user profile details
+- Update profile details
+- Upload profile picture to Azure Blob Storage
+
+## Setup Instructions
+
+1. Install dependencies
+
+```
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Create a `.env` file based on `.env.example` and update it with your local backend URL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Start the development server
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+npm run dev
+```
 
-## Learn More
+4. Access the app at `http://localhost:3000`
 
-To learn more about Next.js, take a look at the following resources:
+## Assumptions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- It is assumed that users will input valid and correctly formatted data (e.g. valid email format)
+- Backend API is running and accessible at the URL defined in `.env` file
