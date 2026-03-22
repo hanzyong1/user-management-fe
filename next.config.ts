@@ -9,8 +9,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination:
-          "https://user-management-demo.azurewebsites.net/api/:path*",
+        destination: `${process.env.NEXT_PUBLIC_API_URL ?? "https://user-management-demo.azurewebsites.net"}/api/:path*`,
       },
     ];
   },
